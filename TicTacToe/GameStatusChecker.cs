@@ -1,45 +1,11 @@
 ﻿namespace TicTacToe
 {
-    public class TicTac
+    class GameStatusChecker
     {
-        public char[] gameSpace { get; private set; }
-        //internal char[] gameSpace = new char[9];
-
-        public TicTac()
-        {
-            gameSpace = new char[9];
-            GameboardReset();
-        }
-
-        //Places player pieces.
-        public bool Place(string input, char ch)
-        {
-            if (!int.TryParse(input, out int position))
-                return false;
-            try
-            {
-                if (char.IsDigit(gameSpace[position - 1]))
-                {
-                    gameSpace[position - 1] = ch;
-
-                    return true;
-                }
-            }
-            catch { }
-
-            return false;
-        }
-
-        //Places computer's pieces.
-        public void Place(int position, char ch)
-        {
-            gameSpace[position] = ch;
-        }
-
         //Checks to see if the game has been won.
-        public bool Check(char i)
+        static public bool IsWon(char[] gameSpace, char i)
         {
-            char ch = Solve();
+            char ch = Solve(gameSpace);
 
             if (ch == i)
                 return true;
@@ -49,9 +15,9 @@
         }
 
         //Checks to see if the game is tied.
-        public bool Cat()
+        static public bool IsTied(char[] gameSpace)
         {
-            foreach (char ch in this.gameSpace)
+            foreach (char ch in gameSpace)
             {
                 if (char.IsDigit(ch))
                 {
@@ -62,7 +28,7 @@
         }
 
         //Check() calls the Solve() method to actually see if there are three in a row anywhere.
-        private char Solve()
+        static private char Solve(char[] gameSpace)
         {
             if (gameSpace[0] == gameSpace[1] && gameSpace[1] == gameSpace[2])
                 return gameSpace[0];
@@ -82,12 +48,5 @@
                 return gameSpace[2];
             return ' ';
         }
-
-        //Resets the values of the gameSpace array.
-        public void GameboardReset()
-        {
-            gameSpace = "123456789".ToCharArray();
-        }
-
     }
 }
